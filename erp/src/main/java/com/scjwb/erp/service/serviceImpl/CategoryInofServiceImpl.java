@@ -1,5 +1,6 @@
 package com.scjwb.erp.service.serviceImpl;
 
+import com.mysql.jdbc.StringUtils;
 import com.scjwb.erp.dao.CategoryInfoMapper;
 import com.scjwb.erp.model.CategoryInfo;
 import com.scjwb.erp.service.CategoryInfoService;
@@ -14,8 +15,15 @@ public class CategoryInofServiceImpl implements CategoryInfoService{
     @Override
     public CategoryInfo createCategory(CategoryInfo categoryInfo) throws Exception{
         String parentId = categoryInfo.getParentId();
+        String categoryName = categoryInfo.getCategoryName();
+        if (StringUtils.isNullOrEmpty(categoryName)||StringUtils.isNullOrEmpty(parentId)){
+            throw new RuntimeException("参数不能为空！");
+        }
+        int categoryCount = categoryInfoMapper.selectByCategoryName(categoryName);
+        if (categoryCount>0){
+            throw new RuntimeException("该名称已存在！");
+        }
         if (!"0".equals(parentId)){
-
             CategoryInfo parent = categoryInfoMapper.selectByPrimaryKey(Integer.parseInt(parentId));
             if (parent==null){
                 throw new RuntimeException("传入父类id有误！请检查后重新请求！");

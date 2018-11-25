@@ -20,4 +20,6 @@ public interface CategoryInfoMapper {
     int updateByPrimaryKey(CategoryInfo record);
 
     List<CategoryInfo> selectByPid(String parentId);
+
+    int selectByCategoryName(String categoryName);
 }

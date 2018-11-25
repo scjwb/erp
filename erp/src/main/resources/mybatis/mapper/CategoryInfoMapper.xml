@@ -23,7 +23,13 @@
       from category_info
       where parent_id = #{parentId,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="selectByCategoryName" resultType="java.lang.Integer">
+    select
+    count(1)
+    from category_info
+    where category_name = #{categoryName}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from category_info
     where id = #{id,jdbcType=INTEGER}
   </delete>

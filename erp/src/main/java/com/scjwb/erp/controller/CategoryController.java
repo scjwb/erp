@@ -1,10 +1,10 @@
 package com.scjwb.erp.controller;
 
 import com.scjwb.erp.bean.Result;
-import com.scjwb.erp.dao.CategoryInfoMapper;
 import com.scjwb.erp.model.CategoryInfo;
 import com.scjwb.erp.service.CategoryInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +17,7 @@ public class CategoryController {
     @Autowired
     private CategoryInfoService categoryInfoService;
     @RequestMapping(value = "createCategory",method = RequestMethod.POST)
-    public Result createCategory(CategoryInfo categoryInfo){
+    public Result createCategory(@RequestBody CategoryInfo categoryInfo){
         try {
             CategoryInfo category = categoryInfoService.createCategory(categoryInfo);
             return Result.success(category);
@@ -37,7 +37,7 @@ public class CategoryController {
         }
     }
     @RequestMapping(value = "updateCategoryById",method = RequestMethod.POST)
-    public Result updateCategoryById(CategoryInfo categoryInfo){
+    public Result updateCategoryById(@RequestBody CategoryInfo categoryInfo){
             int count = categoryInfoService.updateCategory(categoryInfo);
             if (count>0){
                 return Result.success("成功更新"+count+"条记录！");

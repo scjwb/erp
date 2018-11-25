@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scjwb.erp.dao.IncreaseStockInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.scjwb.erp.model.IncreaseStockInfo" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="stock_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="product_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="weight" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="weight_unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="count" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="count_unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="pricing_method" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="stock_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="address_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stock_id, product_id, weight, weight_unit, count, count_unit, price, pricing_method, 
+    stock_type, address_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from increase_stock_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from increase_stock_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.scjwb.erp.model.IncreaseStockInfo" >
+    insert into increase_stock_info (id, stock_id, product_id, 
+      weight, weight_unit, count, 
+      count_unit, price, pricing_method, 
+      stock_type, address_id, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{stockId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DECIMAL}, #{weightUnit,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{countUnit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{pricingMethod,jdbcType=VARCHAR}, 
+      #{stockType,jdbcType=VARCHAR}, #{addressId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.scjwb.erp.model.IncreaseStockInfo" >
+    insert into increase_stock_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stockId != null" >
+        stock_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="weightUnit != null" >
+        weight_unit,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="countUnit != null" >
+        count_unit,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="pricingMethod != null" >
+        pricing_method,
+      </if>
+      <if test="stockType != null" >
+        stock_type,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stockId != null" >
+        #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="weightUnit != null" >
+        #{weightUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="countUnit != null" >
+        #{countUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="pricingMethod != null" >
+        #{pricingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="stockType != null" >
+        #{stockType,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.scjwb.erp.model.IncreaseStockInfo" >
+    update increase_stock_info
+    <set >
+      <if test="stockId != null" >
+        stock_id = #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="weightUnit != null" >
+        weight_unit = #{weightUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="countUnit != null" >
+        count_unit = #{countUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="pricingMethod != null" >
+        pricing_method = #{pricingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="stockType != null" >
+        stock_type = #{stockType,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null" >
+        address_id = #{addressId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.scjwb.erp.model.IncreaseStockInfo" >
+    update increase_stock_info
+    set stock_id = #{stockId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      weight_unit = #{weightUnit,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      count_unit = #{countUnit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      pricing_method = #{pricingMethod,jdbcType=VARCHAR},
+      stock_type = #{stockType,jdbcType=VARCHAR},
+      address_id = #{addressId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

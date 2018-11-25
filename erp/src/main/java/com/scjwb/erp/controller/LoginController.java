@@ -21,4 +21,9 @@ public class LoginController {
     public Result logoutPage(){
         return Result.success("已成功注销");
     }
+    @RequestMapping("/admin/test")
+    @ResponseBody
+    public Result adminTest(){
+        return Result.success("管理员权限测试成功");
+    }
 }

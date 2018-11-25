@@ -4,7 +4,6 @@ import com.scjwb.erp.dao.RolesMapper;
 import com.scjwb.erp.dao.UserMapper;
 import com.scjwb.erp.model.Roles;
 import com.scjwb.erp.model.User;
-import com.scjwb.erp.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,10 +20,7 @@ public class UserService implements UserDetailsService {
     private RolesMapper rolesMapper;
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        UserExample userExample = new UserExample();
-        UserExample.Criteria userCriteria = userExample.createCriteria().andNameEqualTo(userName);
-        List<User> users = userMapper.selectByExample(userExample);
-        User user = users.get(0);
+        User user = userMapper.selectByUserName(userName);
 
         List<Roles> rolesList = rolesMapper.selectRolesByUserId(user.getId());
         user.setRolesList(rolesList);

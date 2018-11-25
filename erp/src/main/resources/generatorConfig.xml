@@ -70,9 +70,9 @@
             domainObjectName:指定了实体类的名称
         -->
         <table tableName="category_info" domainObjectName="CategoryInfo"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
         </table>
 
 

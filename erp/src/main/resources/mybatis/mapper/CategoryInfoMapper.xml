@@ -27,7 +27,7 @@
     delete from category_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.scjwb.erp.model.CategoryInfo" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.scjwb.erp.model.CategoryInfo" >
     insert into category_info (id, category_name, parent_id
       )
     values (#{id,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}

@@ -30,4 +30,20 @@ public class CategoryInofServiceImpl implements CategoryInfoService{
         List<CategoryInfo> parents = categoryInfoMapper.selectByPid(parentId);
         return parents;
     }
+
+    @Override
+    public int updateCategory(CategoryInfo categoryInfo) {
+        int count = categoryInfoMapper.updateByPrimaryKeySelective(categoryInfo);
+        return count;
+    }
+
+    @Override
+    public int deleteByCategoryId(Integer id) throws Exception{
+        List<CategoryInfo> categoryInfos = categoryInfoMapper.selectByPid(id.toString());
+        if (categoryInfos != null && categoryInfos.size()>0){
+            throw new RuntimeException("删除分类前，请先清空该分类下所有子分类！");
+        }
+        int count = categoryInfoMapper.deleteByPrimaryKey(id);
+        return count;
+    }
 }

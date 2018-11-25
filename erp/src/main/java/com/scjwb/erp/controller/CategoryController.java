@@ -6,6 +6,7 @@ import com.scjwb.erp.model.CategoryInfo;
 import com.scjwb.erp.service.CategoryInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryInfoService categoryInfoService;
-    @RequestMapping(value = "createCategory")
+    @RequestMapping(value = "createCategory",method = RequestMethod.POST)
     public Result createCategory(CategoryInfo categoryInfo){
         try {
             CategoryInfo category = categoryInfoService.createCategory(categoryInfo);
@@ -31,6 +32,30 @@ public class CategoryController {
             List<CategoryInfo> categoryInfos = categoryInfoService.selectCategoryByParentId(parentId);
             return Result.success(categoryInfos);
         } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail(e.getMessage());
+        }
+    }
+    @RequestMapping(value = "updateCategoryById",method = RequestMethod.POST)
+    public Result updateCategoryById(CategoryInfo categoryInfo){
+            int count = categoryInfoService.updateCategory(categoryInfo);
+            if (count>0){
+                return Result.success("成功更新"+count+"条记录！");
+            }else {
+                return Result.fail("更新失败，未找到相关记录！");
+
+            }
+    }
+    @RequestMapping("deleteCategoryById")
+    public Result deleteCategoryById(Integer id){
+        try {
+            int count = categoryInfoService.deleteByCategoryId(id);
+            if (count>0){
+            return Result.success("成功删除"+count+"条记录！");
+            }else {
+            return Result.fail("删除失败，未找到相关记录！");
+            }
+        }catch (Exception e) {
             e.printStackTrace();
             return Result.fail(e.getMessage());
         }

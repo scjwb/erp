@@ -11,6 +11,7 @@
         <module>microservicecloud-api</module>
         <module>microservicecloud-provider-dept-8001</module>
         <module>microservicecloud-consumer-dept-80</module>
+        <module>microservicecloud-eureka-7001</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -77,6 +78,13 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.tld</include>
+                    <include>**/*.conf</include>
+                </includes>
                 <filtering>true</filtering>
             </resource>
         </resources>

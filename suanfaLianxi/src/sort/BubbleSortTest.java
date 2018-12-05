@@ -1,5 +1,5 @@
 package sort;
-//冒泡排序
+//冒泡排序，空间复杂度o(1)，时间复杂度o(n2) ,稳定排序
 public class BubbleSortTest {
     public static void bubbleSort(int[] a,int n){
         if (n<=1){

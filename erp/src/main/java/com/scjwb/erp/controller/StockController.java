@@ -20,7 +20,7 @@ public class StockController {
             //验证入库商品信息是否符合逻辑
             increaseStockInfoService.validRequestParam(increaseStockInfo);
             int count = increaseStockInfoService.increaseStock(increaseStockInfo);
-            return Result.success("成功插入"+count+"条数据！");
+            return Result.success("成功插入"+count+"条入库记录！");
 
         } catch (Exception e) {
             e.printStackTrace();

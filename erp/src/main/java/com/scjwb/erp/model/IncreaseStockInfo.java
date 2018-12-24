@@ -28,6 +28,10 @@ public class IncreaseStockInfo {
 
     private Date createTime;
 
+    private BigDecimal allAmount;
+
+
+
     public IncreaseStockInfo(Integer id, String stockId, String productId, BigDecimal weight, String weightUnit, Integer count, String countUnit, BigDecimal price, String pricingMethod, String stockType, String addressId, Date createTime) {
         this.id = id;
         this.stockId = stockId;
@@ -46,7 +50,13 @@ public class IncreaseStockInfo {
     public IncreaseStockInfo() {
         super();
     }
+    public BigDecimal getAllAmount() {
+        return allAmount;
+    }
 
+    public void setAllAmount(BigDecimal allAmount) {
+        this.allAmount = allAmount;
+    }
     public Integer getId() {
         return id;
     }

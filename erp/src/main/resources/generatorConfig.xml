@@ -69,7 +69,7 @@
         <!--tableName:指定了表名
             domainObjectName:指定了实体类的名称
         -->
-        <table tableName="increase_stock_info" domainObjectName="IncreaseStockInfo"
+        <table tableName="reduce_stock_info" domainObjectName="ReduceStockInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

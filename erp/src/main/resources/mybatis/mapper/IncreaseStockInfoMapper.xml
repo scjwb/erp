@@ -28,6 +28,31 @@
     from increase_stock_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByIncreaseStockInfo" resultType="java.util.HashMap">
+    select
+    <include refid="Base_Column_List" />
+    from increase_stock_info
+    <where>
+      <if test="increaseStockInfo.stockId != null and increaseStockInfo.stockId != ''">
+        and stock_id = #{increaseStockInfo.stockId}
+      </if>
+      <if test="increaseStockInfo.productId != null and increaseStockInfo.productId != ''">
+        and product_id = #{increaseStockInfo.productId}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and DATE_FORMAT(create_time,"%Y-%m-%d") &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and DATE_FORMAT(create_time,"%Y-%m-%d") &lt;= #{endDate}
+      </if>
+    </where>
+  </select>
+  <select id="selectByIncreaseStockId" resultType="com.scjwb.erp.model.IncreaseStockInfo">
+    select
+    <include refid="Base_Column_List" />
+    from increase_stock_info
+    where stock_id = #{stockId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from increase_stock_info
     where id = #{id,jdbcType=INTEGER}

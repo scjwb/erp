@@ -54,4 +54,24 @@ public class CategoryInofServiceImpl implements CategoryInfoService{
         int count = categoryInfoMapper.deleteByPrimaryKey(id);
         return count;
     }
+
+    @Override
+    public List<CategoryInfo> showAllCategory() {
+        List<CategoryInfo> categoryInfos = findChildrenByParentId("0");
+        return categoryInfos;
+    }
+
+    private List<CategoryInfo> findChildrenByParentId(String parentId) {
+        List<CategoryInfo> categoryInfos = categoryInfoMapper.selectByPid(parentId);
+        if (categoryInfos != null && categoryInfos.size()>0){
+            for (CategoryInfo categoryInfo:categoryInfos){
+                String parentId2 = categoryInfo.getId().toString();
+                List<CategoryInfo> childrenByParentId = findChildrenByParentId(parentId2);
+                categoryInfo.setChildren(childrenByParentId);
+            }
+        }else {
+            return null;
+        }
+        return categoryInfos;
+    }
 }

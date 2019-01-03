@@ -16,11 +16,25 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryInfoService categoryInfoService;
+    @RequestMapping(value = "showAllCategory",method = RequestMethod.GET)
+    public Result showAllCategory(){
+        try {
+            List<CategoryInfo> categorys = categoryInfoService.showAllCategory();
+            Result<List> success = Result.success(categorys);
+            success.setMessage("查询成功！");
+            return success;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail(e.getMessage());
+        }
+    }
     @RequestMapping(value = "createCategory",method = RequestMethod.POST)
     public Result createCategory(@RequestBody CategoryInfo categoryInfo){
         try {
             CategoryInfo category = categoryInfoService.createCategory(categoryInfo);
-            return Result.success(category);
+            Result<CategoryInfo> success = Result.success(category);
+            success.setMessage("添加成功！");
+            return success;
         } catch (Exception e) {
             e.printStackTrace();
             return Result.fail(e.getMessage());
@@ -30,7 +44,9 @@ public class CategoryController {
     public Result selectCategoryByParentId(String parentId){
         try {
             List<CategoryInfo> categoryInfos = categoryInfoService.selectCategoryByParentId(parentId);
-            return Result.success(categoryInfos);
+            Result<List<CategoryInfo>> success = Result.success(categoryInfos);
+            success.setMessage("查询成功！");
+            return success ;
         } catch (Exception e) {
             e.printStackTrace();
             return Result.fail(e.getMessage());
@@ -40,7 +56,9 @@ public class CategoryController {
     public Result updateCategoryById(@RequestBody CategoryInfo categoryInfo){
             int count = categoryInfoService.updateCategory(categoryInfo);
             if (count>0){
-                return Result.success("成功更新"+count+"条记录！");
+                Result<CategoryInfo> success = Result.success(categoryInfo);
+                success.setMessage("更新成功！");
+                return success;
             }else {
                 return Result.fail("更新失败，未找到相关记录！");
 
@@ -51,7 +69,9 @@ public class CategoryController {
         try {
             int count = categoryInfoService.deleteByCategoryId(id);
             if (count>0){
-            return Result.success("成功删除"+count+"条记录！");
+                Result<Integer> success = Result.success(id);
+                success.setMessage("删除成功！");
+                return success;
             }else {
             return Result.fail("删除失败，未找到相关记录！");
             }

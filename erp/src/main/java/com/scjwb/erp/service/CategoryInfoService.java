@@ -12,4 +12,6 @@ public interface CategoryInfoService {
     int updateCategory(CategoryInfo categoryInfo);
 
     int deleteByCategoryId(Integer id) throws Exception;
+
+    List<CategoryInfo> showAllCategory();
 }

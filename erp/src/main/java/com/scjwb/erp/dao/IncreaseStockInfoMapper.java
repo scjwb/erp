@@ -2,6 +2,10 @@ package com.scjwb.erp.dao;
 
 import com.scjwb.erp.model.IncreaseStockInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Mapper
 public interface IncreaseStockInfoMapper {
@@ -16,4 +20,8 @@ public interface IncreaseStockInfoMapper {
     int updateByPrimaryKeySelective(IncreaseStockInfo record);
 
     int updateByPrimaryKey(IncreaseStockInfo record);
+
+    List<HashMap> selectByIncreaseStockInfo(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("increaseStockInfo") IncreaseStockInfo increaseStockInfo);
+
+    IncreaseStockInfo selectByIncreaseStockId(String stockId);
 }

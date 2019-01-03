@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scjwb.erp.dao.ReduceStockInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.scjwb.erp.model.ReduceStockInfo" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="stock_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="product_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="weight" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="count" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="allAmount" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="status" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stock_id, product_id, weight, count, price, allAmount, status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from reduce_stock_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="checkIfReduced" resultType="java.util.List">
+      select
+      <include refid="Base_Column_List" />
+      from reduce_stock_info
+      where stock_id = #{stockId}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from reduce_stock_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.scjwb.erp.model.ReduceStockInfo" >
+    insert into reduce_stock_info (id, stock_id, product_id, 
+      weight, count, price, 
+      allAmount, status, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{stockId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{allamount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.scjwb.erp.model.ReduceStockInfo" >
+    insert into reduce_stock_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stockId != null" >
+        stock_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="allamount != null" >
+        allAmount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stockId != null" >
+        #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="allamount != null" >
+        #{allamount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.scjwb.erp.model.ReduceStockInfo" >
+    update reduce_stock_info
+    <set >
+      <if test="stockId != null" >
+        stock_id = #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="allamount != null" >
+        allAmount = #{allamount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.scjwb.erp.model.ReduceStockInfo" >
+    update reduce_stock_info
+    set stock_id = #{stockId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      count = #{count,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      allAmount = #{allamount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

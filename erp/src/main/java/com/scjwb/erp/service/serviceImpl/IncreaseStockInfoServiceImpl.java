@@ -1,5 +1,7 @@
 package com.scjwb.erp.service.serviceImpl;
 
+import com.mysql.jdbc.StringUtils;
+import com.scjwb.erp.dao.CategoryInfoMapper;
 import com.scjwb.erp.dao.IncreaseStockInfoMapper;
 import com.scjwb.erp.dao.ReduceStockInfoMapper;
 import com.scjwb.erp.model.IncreaseStockInfo;
@@ -9,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
@@ -21,6 +21,8 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
     private static String multiStock = "1"; //多条入库
     private static String priceByCount = "0"; //按数量计价
     private static String priceByWeight = "1"; //按重量计价
+    @Autowired
+    private CategoryInfoMapper categoryInfoMapper;
     @Autowired
     private IncreaseStockInfoMapper increaseStockInfoMapper;
     @Autowired
@@ -85,8 +87,22 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
     }
 
     @Override
-    public List<HashMap> showIncreaseByCondition(String startDate, String endDate, IncreaseStockInfo increaseStockInfo) {
-        List<HashMap> increaseStockInfos = increaseStockInfoMapper.selectByIncreaseStockInfo(startDate,endDate,increaseStockInfo);
+    public List<HashMap> showIncreaseByCondition(String startDate, String endDate, String productName, IncreaseStockInfo increaseStockInfo) {
+        List<String> pidList = null;
+        if (!StringUtils.isNullOrEmpty(productName)){
+            pidList = categoryInfoMapper.selectPidListByProductName(productName);
+        }
+        List<HashMap> increaseStockInfos = increaseStockInfoMapper.selectByIncreaseStockInfo(startDate,endDate,pidList,increaseStockInfo);
+        increaseStockInfos.stream().forEach(
+                hashMap -> {
+                    if (((String)hashMap.get("pricing_method")).equals("0")){
+                        hashMap.put("weight","");
+                        hashMap.put("weight_unit","");
+                        hashMap.put("stock_weight","");
+                    }
+                    hashMap.put("count_unit","件");
+                }
+        );
         return increaseStockInfos;
     }
 

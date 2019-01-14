@@ -22,4 +22,6 @@ public interface CategoryInfoMapper {
     List<CategoryInfo> selectByPid(String parentId);
 
     int selectByCategoryName(String categoryName);
+
+    List<String> selectPidListByProductName(String productName);
 }

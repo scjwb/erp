@@ -32,9 +32,16 @@
   </select>
   <select id="selectByIncreaseStockInfo" resultType="java.util.HashMap">
     select
-    <include refid="Base_Column_List" />
-    from increase_stock_info
+    stock_id, product_id, stock_weight, weight, weight_unit, stock_count, count, count_unit, price, pricing_method,
+    stock_type, allAmount,address_id, create_time,category_name 'productName'
+    from increase_stock_info left join category_info on increase_stock_info.product_id = category_info.id
     <where>
+      <if test="pidList != null">
+
+        <foreach collection="pidList" index="index" item="productId" open="product_id in(" separator="," close=")">
+          #{productId}
+        </foreach>
+      </if>
       <if test="increaseStockInfo.stockId != null and increaseStockInfo.stockId != ''">
         and stock_id = #{increaseStockInfo.stockId}
       </if>

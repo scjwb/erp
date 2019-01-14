@@ -34,11 +34,11 @@ public class StockController {
     }
     //查询商品入库记录
     @RequestMapping(value = "showIncreaseRecord",method = RequestMethod.GET)
-    public Result showIncreaseRecord(Integer pageNum,Integer pageSize,String startDate,String endDate,IncreaseStockInfo increaseStockInfo){
+    public Result showIncreaseRecord(Integer pageNum,Integer pageSize,String startDate,String endDate,String productName,IncreaseStockInfo increaseStockInfo){
         try {
             //查询商品入库记录
             PageHelper.startPage(pageNum,pageSize);
-            List<HashMap> increaseRecord = increaseStockInfoService.showIncreaseByCondition(startDate,endDate,increaseStockInfo);
+            List<HashMap> increaseRecord = increaseStockInfoService.showIncreaseByCondition(startDate,endDate,productName,increaseStockInfo);
             PageInfo<HashMap> pageInfo = new PageInfo<>(increaseRecord);
             return Result.success(pageInfo);
 

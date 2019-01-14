@@ -11,7 +11,7 @@ public interface IncreaseStockInfoService {
 
     int increaseStock(IncreaseStockInfo increaseStockInfo);
 
-    List<HashMap> showIncreaseByCondition(String startDate, String endDate, IncreaseStockInfo increaseStockInfo);
+    List<HashMap> showIncreaseByCondition(String startDate, String endDate, String productName, IncreaseStockInfo increaseStockInfo);
 
     int reduceStock(ReduceStockInfo reduceStockInfo);
 

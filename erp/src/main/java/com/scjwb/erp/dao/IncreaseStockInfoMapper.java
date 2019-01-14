@@ -21,7 +21,7 @@ public interface IncreaseStockInfoMapper {
 
     int updateByPrimaryKey(IncreaseStockInfo record);
 
-    List<HashMap> selectByIncreaseStockInfo(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("increaseStockInfo") IncreaseStockInfo increaseStockInfo);
+    List<HashMap> selectByIncreaseStockInfo(@Param("startDate") String startDate, @Param("endDate") String endDate,@Param("pidList") List<String> pidList, @Param("increaseStockInfo") IncreaseStockInfo increaseStockInfo);
 
     IncreaseStockInfo selectByIncreaseStockId(String stockId);
 }

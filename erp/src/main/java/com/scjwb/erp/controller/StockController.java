@@ -23,7 +23,7 @@ public class StockController {
     public Result increaseStock(@RequestBody IncreaseStockInfo increaseStockInfo){
         try {
             //验证入库商品信息是否符合逻辑
-            increaseStockInfoService.validRequestParam(increaseStockInfo);
+            increaseStockInfoService.validIncreaseStockParam(increaseStockInfo);
             int count = increaseStockInfoService.increaseStock(increaseStockInfo);
             return Result.success("成功插入"+count+"条入库记录！");
 
@@ -52,7 +52,7 @@ public class StockController {
     public Result validStockId(@RequestParam(required = true) String stockId){
         try {
             //验证出库商品信息是否符合逻辑
-            HashMap<String,Object> stockMap = increaseStockInfoService.validRequestParam(stockId);
+            HashMap<String,Object> stockMap = increaseStockInfoService.validReduceStockParam(stockId);
             Result<HashMap<String, Object>> success = Result.success(stockMap);
             success.setMessage("该入库编号id符合出库要求！");
             return success;
@@ -61,11 +61,25 @@ public class StockController {
             return Result.fail(e.getMessage());
         }
     }
-    //查询商品入库记录
+    //商品出库
+    @RequestMapping(value = "reduceStock",method = RequestMethod.POST)
+    public Result reduceStock(@RequestBody ReduceStockInfo reduceStockInfo){
+        try {
+            //验证入库商品信息是否符合逻辑
+            HashMap<String, Object> stockMap = increaseStockInfoService.validReduceStockParam(reduceStockInfo.getStockId());
+            int count = increaseStockInfoService.reduceStock(reduceStockInfo);
+            return Result.success("成功插入"+count+"条入库记录！");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail(e.getMessage());
+        }
+    }
+    //查询商品出库记录
     @RequestMapping(value = "showReduceRecord",method = RequestMethod.GET)
     public Result showReduceRecord(Integer pageNum,Integer pageSize,String startDate,String endDate,ReduceStockInfo reduceStockInfo ){
         try {
-            //查询商品入库记录
+            //查询商品出库记录
             PageHelper.startPage(pageNum,pageSize);
             List<HashMap> reduceRecord = increaseStockInfoService.showReduceByCondition(startDate,endDate,reduceStockInfo);
             PageInfo<HashMap> pageInfo = new PageInfo<>(reduceRecord);

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface IncreaseStockInfoService {
-    void validRequestParam(IncreaseStockInfo increaseStockInfo);
+    void validIncreaseStockParam(IncreaseStockInfo increaseStockInfo);
 
     int increaseStock(IncreaseStockInfo increaseStockInfo);
 
@@ -15,7 +15,7 @@ public interface IncreaseStockInfoService {
 
     int reduceStock(ReduceStockInfo reduceStockInfo);
 
-    HashMap<String, Object> validRequestParam(String stockId);
+    HashMap<String, Object> validReduceStockParam(String stockId);
 
     List<HashMap> showReduceByCondition(String startDate, String endDate, ReduceStockInfo reduceStockInfo);
 }

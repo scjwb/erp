@@ -12,7 +12,11 @@ public class IncreaseStockInfo {
 
     private BigDecimal weight;
 
+    private BigDecimal stockWeight;
+
     private String weightUnit;
+
+    private Integer stockCount;
 
     private Integer count;
 
@@ -50,6 +54,24 @@ public class IncreaseStockInfo {
     public IncreaseStockInfo() {
         super();
     }
+
+
+    public BigDecimal getStockWeight() {
+        return stockWeight;
+    }
+
+    public void setStockWeight(BigDecimal stockWeight) {
+        this.stockWeight = stockWeight;
+    }
+
+    public Integer getStockCount() {
+        return stockCount;
+    }
+
+    public void setStockCount(Integer stockCount) {
+        this.stockCount = stockCount;
+    }
+
     public BigDecimal getAllAmount() {
         return allAmount;
     }

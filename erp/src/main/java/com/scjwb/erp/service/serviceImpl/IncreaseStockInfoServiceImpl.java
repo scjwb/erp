@@ -26,7 +26,7 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
     @Autowired
     private ReduceStockInfoMapper reduceStockInfoMapper;
     @Override
-    public void validRequestParam(IncreaseStockInfo increaseStockInfo) {
+    public void validIncreaseStockParam(IncreaseStockInfo increaseStockInfo) {
         BigDecimal allAmount = null;
         //参数非空校验
         String stockId = increaseStockInfo.getStockId();
@@ -42,7 +42,8 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
         Integer count = increaseStockInfo.getCount();//库存数量
         if (singleStock.equals(stockType)){
             //单条入库时商品数量只能是1；
-            increaseStockInfo.setCount(1);
+            count = 1;
+            increaseStockInfo.setCount(count);
         }else if (multiStock.equals(stockType)){
             if(count == null || count<=0){
                 throw new RuntimeException("多条入库时，请传入正确的商品数量！");
@@ -58,6 +59,7 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
         //计价方式验证
         String pricingMethod = increaseStockInfo.getPricingMethod();
         BigDecimal weight = increaseStockInfo.getWeight();
+
         if (priceByWeight.equals(pricingMethod)){
             if(weight == null||weight.doubleValue()<=0){
                 throw new RuntimeException("按重量计价时，请传入正确的商品重量！");
@@ -68,6 +70,9 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
         }else {
             throw new RuntimeException("请选择正确的计价方式！");
         }
+
+        increaseStockInfo.setStockCount(count);
+        increaseStockInfo.setStockWeight(weight);
         //计算入库商品总价
         increaseStockInfo.setAllAmount(allAmount);
         increaseStockInfo.setCreateTime(new Date());
@@ -91,7 +96,7 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
     }
 
     @Override
-    public HashMap<String, Object> validRequestParam(String stockId) {
+    public HashMap<String, Object> validReduceStockParam(String stockId) {
         HashMap<String, Object> stockMap = new HashMap<>();
         IncreaseStockInfo increaseStockInfo = increaseStockInfoMapper.selectByIncreaseStockId(stockId);
         if (increaseStockInfo == null){
@@ -100,47 +105,30 @@ public class IncreaseStockInfoServiceImpl implements IncreaseStockInfoService{
         //验证必填参数项
         String pricingMethod = increaseStockInfo.getPricingMethod();
         String stockType = increaseStockInfo.getStockType();
-        Integer count = increaseStockInfo.getCount();
-        BigDecimal weight = increaseStockInfo.getWeight();
+        String countUnit = increaseStockInfo.getCountUnit();
+        String weightUnit = increaseStockInfo.getWeightUnit();
 
-        List<ReduceStockInfo> reduceRecords = reduceStockInfoMapper.checkIfReduced(stockId);
-        if (singleStock.equals(stockType)){
-            //单条入库时检查该商品是否已经被卖出
-            if (reduceRecords!=null && reduceRecords.size()>0){
-                if (reduceRecords.stream().anyMatch(reduceStockInfo -> !"1".equals(reduceStockInfo.getStatus()))){
-                    throw new RuntimeException("该商品已卖出或失效！");
-                }
-            }
-            stockMap.put("stockCount",1);
-            stockMap.put("stockWeight", weight.doubleValue());
-        }else if (multiStock.equals(stockType)){
-            Integer reduceCount = 0;
-            if (priceByCount.equals(pricingMethod)){
-                //按数量计价
-                if (reduceRecords!=null && reduceRecords.size()>0){
-                    reduceCount = reduceRecords.stream().filter(reduceStockInfo -> !"1".equals(reduceStockInfo.getStatus())).collect(Collectors.summingInt(ReduceStockInfo::getCount));
-                    if (reduceCount>=count){
-                        throw new RuntimeException("该商品已卖完！");
-                    }
-                }
-                stockMap.put("stockCount",count-reduceCount);
-            }else if (priceByWeight.equals(pricingMethod)){
+        Integer stockCount = increaseStockInfo.getStockCount();
+        BigDecimal stockWeight = increaseStockInfo.getStockWeight();
+        if (stockCount == 0){
+            throw new RuntimeException("该商品已卖完！");
+        }
+        if (multiStock.equals(stockType)){
+            if (priceByWeight.equals(pricingMethod)){
                 //按重量计价
-                Double reduceWeight = 0.0;
-                if (reduceRecords!=null && reduceRecords.size()>0){
-                    reduceCount = reduceRecords.stream().filter(reduceStockInfo -> !"1".equals(reduceStockInfo.getStatus())).collect(Collectors.summingInt(ReduceStockInfo::getCount));
-                    if (reduceCount>=count){
-                        throw new RuntimeException("该商品已卖完！");
-                    }
-                    reduceWeight = reduceRecords.stream().filter(reduceStockInfo -> !"1".equals(reduceStockInfo.getStatus())).collect(Collectors.summingDouble(reduceStockInfo -> reduceStockInfo.getWeight().doubleValue()));
-                    if (reduceWeight>=weight.doubleValue()){
-                        throw new RuntimeException("该商品已卖完！");
-                    }
+                if (stockWeight.doubleValue() == 0.0){
+                    throw new RuntimeException("该商品已卖完！");
                 }
-                stockMap.put("stockCount",count-reduceCount);
-                stockMap.put("stockWeight", weight.doubleValue()-reduceWeight);
+
             }
         }
+        stockMap.put("stockCount",stockCount);
+        stockMap.put("stockWeight", stockWeight.doubleValue());
+        stockMap.put("pricingMethod",pricingMethod);
+        stockMap.put("stockType",stockType);
+        stockMap.put("countUnit",countUnit);
+        stockMap.put("weightUnit",weightUnit);
+
         return stockMap;
     }
 

@@ -6,8 +6,10 @@
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="stock_id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="product_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="stock_weight" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="weight" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="weight_unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="stock_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="count" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="count_unit" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
@@ -19,7 +21,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, stock_id, product_id, weight, weight_unit, count, count_unit, price, pricing_method, 
+    id, stock_id, product_id, stock_weight, weight, weight_unit, stock_count, count, count_unit, price, pricing_method,
     stock_type, allAmount,address_id, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -58,13 +60,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.scjwb.erp.model.IncreaseStockInfo" >
-    insert into increase_stock_info (id, stock_id, product_id, 
-      weight, weight_unit, count, 
+    insert into increase_stock_info (id, stock_id, product_id, stock_weight,
+      weight, weight_unit,stock_count, count,
       count_unit, price, pricing_method, 
       stock_type, allAmount, address_id, create_time
       )
-    values (#{id,jdbcType=INTEGER}, #{stockId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
-      #{weight,jdbcType=DECIMAL}, #{weightUnit,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{stockId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
+    #{stockWeight,jdbcType=DECIMAL},#{weight,jdbcType=DECIMAL}, #{weightUnit,jdbcType=VARCHAR}, #{stockCount,jdbcType=INTEGER}, #{count,jdbcType=INTEGER},
       #{countUnit,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{pricingMethod,jdbcType=VARCHAR}, 
       #{stockType,jdbcType=VARCHAR}, #{allAmount,jdbcType=DECIMAL}, #{addressId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
@@ -81,11 +83,17 @@
       <if test="productId != null" >
         product_id,
       </if>
+      <if test="stockWeight != null" >
+        stock_weight,
+      </if>
       <if test="weight != null" >
         weight,
       </if>
       <if test="weightUnit != null" >
         weight_unit,
+      </if>
+      <if test="stockCount != null" >
+        stock_count,
       </if>
       <if test="count != null" >
         count,
@@ -122,11 +130,17 @@
       <if test="productId != null" >
         #{productId,jdbcType=VARCHAR},
       </if>
+      <if test="stockWeight != null" >
+        #{stockWeight,jdbcType=DECIMAL},
+      </if>
       <if test="weight != null" >
         #{weight,jdbcType=DECIMAL},
       </if>
       <if test="weightUnit != null" >
         #{weightUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCount != null" >
+        #{stockCount,jdbcType=INTEGER},
       </if>
       <if test="count != null" >
         #{count,jdbcType=INTEGER},
@@ -163,11 +177,17 @@
       <if test="productId != null" >
         product_id = #{productId,jdbcType=VARCHAR},
       </if>
+      <if test="stockWeight != null" >
+        stock_weight = #{stockWeight,jdbcType=DECIMAL},
+      </if>
       <if test="weight != null" >
         weight = #{weight,jdbcType=DECIMAL},
       </if>
       <if test="weightUnit != null" >
         weight_unit = #{weightUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCount != null" >
+        stock_count = #{stockCount,jdbcType=INTEGER},
       </if>
       <if test="count != null" >
         count = #{count,jdbcType=INTEGER},
@@ -200,8 +220,10 @@
     update increase_stock_info
     set stock_id = #{stockId,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=VARCHAR},
+    stock_weight = #{stockWeight,jdbcType=DECIMAL},
       weight = #{weight,jdbcType=DECIMAL},
       weight_unit = #{weightUnit,jdbcType=VARCHAR},
+    stock_count = #{stockCount,jdbcType=INTEGER},
       count = #{count,jdbcType=INTEGER},
       count_unit = #{countUnit,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
